@@ -2,19 +2,20 @@
   <div>
     <cs-table 
       :data="dataList"
-      :span-method="spanMethod"
       :head="headList"
       >
-      <cs-table-column props="value">
+      <cs-table-column props="value" label="Id" width="100">
       </cs-table-column>
-      <cs-table-column>
+      <cs-table-column label="姓名">
         <template slot-scope="{row}">
           <div>
             {{row.name}}
           </div>
         </template>
       </cs-table-column>
-      <cs-table-column>
+      <cs-table-column label="操作">
+      </cs-table-column>
+      <cs-table-column label="滴滴">
       </cs-table-column>
     </cs-table>
   </div>

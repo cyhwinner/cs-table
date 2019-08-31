@@ -31,13 +31,21 @@ export default {
                 row,
                 index
               }
-              return(
-                <td
-                  colspan={colspan}
-                  rowspan={rowspan}>
-                  { column.renderCell(this.$createElement, data) }
-                </td>
-              )
+              if (typeof this.table.spanMethod === 'function') {
+                return(
+                  <td
+                    colspan={colspan}
+                    rowspan={rowspan}>
+                    { column.renderCell(this.$createElement, data) }
+                  </td>
+                )
+              } else {
+                return (
+                  <td>
+                    { column.renderCell(this.$createElement, data) }
+                  </td>
+                )
+              }
             })
           }
         </tr>

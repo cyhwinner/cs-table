@@ -28,10 +28,8 @@
 
 <template>
   <div>
-    <table class='cs-table tb-m-t-20' cellspacing='0' cellpadding='0' >
-      <thead>
-        <th v-for="item in this.head" :key="item"> {{item }}</th>
-      </thead>
+    <table class='cs-table tb-m-t-20' cellspacing='0' cellpadding='0' ref="table">
+      <table-header :state="state"></table-header>
       <table-body :state="state"></table-body>
       <div ref="hiddenColumns" class="hiddenColumns"><slot></slot></div>
     </table>
@@ -40,6 +38,7 @@
 
 <script>
 import TableBody from './TableBody.vue';
+import TableHeader from './TableHeader.vue';
 let tableId = 1;
 export default {
   name: 'CsTable',
@@ -79,7 +78,7 @@ export default {
     }
   },
   components: {
-    TableBody
+    TableBody, TableHeader
   }
 }
 </script>

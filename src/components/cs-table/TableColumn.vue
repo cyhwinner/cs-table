@@ -1,11 +1,13 @@
 
 <script>
 let columnId = 1;
+import { compose } from './util.js';
 export default {
   name: 'CsTableColumn',
   props: {
     label: String,
-    props: String
+    props: String,
+    width: [Number, String]
   },
   data () {
     return {
@@ -22,6 +24,9 @@ export default {
       }
       return parent;
     },
+    realWidth() {
+      return parseFloat(this.width);
+    }
   },
   created () {
     const parent = this.owner;
@@ -29,7 +34,9 @@ export default {
     const basicProps = ['columnKey', 'label', 'className', 'labelClassName', 'type', 'renderHeader', 'formatter', 'fixed', 'resizable', 'props'];
     
     let column = this.getPropsData(basicProps);
-    column = this.setColumnRender(column);
+    const chains = compose(this.setColumnRender, this.setColumnWidth);
+    column = chains(column);
+    console.log(column)
     this.columnsConfig = column;
   },
   mounted() {
@@ -54,7 +61,8 @@ export default {
           children = this.defaultRenderCell(h, data);
         }
         const props = {
-          class: `cell ${this.columnId}`
+          class: `cell ${this.columnId}`,
+          style: {width: column.width + 'px'}
         }
         return (
           <div {...props}>
@@ -74,6 +82,14 @@ export default {
     },
     getColumnIndex(children, child) {
       return [].indexOf.call(children, child);
+    },
+    setColumnWidth(column) {
+      column.minWidth = 80;
+      if (this.realWidth) {
+        column.width = this.realWidth;
+      }
+      column.width = column.width === undefined ? column.minWidth : column.width;
+      return column;
     }
   },
   render(h) {
